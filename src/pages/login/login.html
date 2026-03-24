@@ -1,1 +1,57 @@
-<p>login works!</p>
+<div class="parent">
+    <div class="particles" id="particles"></div>
+
+    <div class="login-container">
+        <div class="card login-card">
+            <div class="card-header">
+                <div class="logo-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h2>Employee Portal</h2>
+            </div>
+
+            <div class="card-body">
+                <form id="loginForm">
+                    <!-- Email/Username Input -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email or Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required
+                                [(ngModel)]="loginObj.email" name="email">
+                        </div>
+                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Contact No</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" id="password" placeholder="Enter your password"
+                                required [(ngModel)]="loginObj.contactNo" name="contactNo">
+                        </div>
+                        <div class="error-message" id="passwordError">Password is required</div>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button type="button" class="btn-login" (click)="onLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    <div class="success-message" id="successMessage">
+                        Login successful!
+                    </div>
+                </form>
+                <!-- Sign Up Section -->
+                <div class="signup-section">
+                    <p>Don't have an account? <a href="#signup">Sign up here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
