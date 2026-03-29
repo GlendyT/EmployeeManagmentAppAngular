@@ -18,23 +18,32 @@
 
       <div class="col-3">
         <label class="form-label fw-medium">Department Name</label>
-        <input type="text" class="form-control" placeholder="Enter department name" [(ngModel)]="newDeptObj.departmentName" />
+        <input type="text" class="form-control" placeholder="Enter department name"
+          [(ngModel)]="newDeptObj.departmentName" />
       </div>
 
       <div class="col-2">
         <label class="form-label fw-medium d-block">Is Active</label>
         <div class="form-check form-switch mt-1">
-          <input class="form-check-input" type="checkbox" role="switch" id="isActive" checked [(ngModel)]="newDeptObj.isActive" />
+          <input class="form-check-input" type="checkbox" role="switch" id="isActive" checked
+            [(ngModel)]="newDeptObj.isActive" />
           <label class="form-check-label text-muted" for="isActive">Active</label>
         </div>
       </div>
 
       <div class="col-auto">
         <label class="form-label d-block invisible">Actions</label>
+        @if(newDeptObj.departmentId == 0){
         <button class="btn btn-primary me-2" (click)="onSaveDept()">
           <i class="fas fa-save me-1"></i> Save
         </button>
-        <button class="btn btn-outline-secondary">
+        } @else {
+        <button class="btn btn-primary me-2" (click)="onUpdateDept()">
+          <i class="fas fa-save me-1"></i> Update
+        </button>
+        }
+
+        <button class="btn btn-outline-secondary" (click)="onReset()">
           <i class="fas fa-undo me-1"></i> Reset
         </button>
       </div>
@@ -63,16 +72,18 @@
           </tr>
         </thead>
         <tbody>
+
+          @for (item of deptList; track $index){
           <tr>
-            <td class="ps-4 text-muted">1</td>
-            <td class="fw-medium">Human Resources</td>
+            <td class="ps-4 text-muted">{{$index + 1}} </td>
+            <td class="fw-medium">{{item.departmentName}} </td>
             <td class="text-center">
               <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">
-                <i class="fas fa-circle me-1" style="font-size:0.5rem;"></i>Active
+                <i class="fas fa-circle me-1" style="font-size:0.5rem;"></i>{{item.isActive ? 'Active' : 'Inactive'}}
               </span>
             </td>
             <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-1" title="Edit">
+              <button class="btn btn-sm btn-outline-primary me-1" title="Edit" (click)="onEdit(item)">
                 <i class="fas fa-pen"></i>
               </button>
               <button class="btn btn-sm btn-outline-danger" title="Delete">
@@ -80,60 +91,9 @@
               </button>
             </td>
           </tr>
-          <tr>
-            <td class="ps-4 text-muted">2</td>
-            <td class="fw-medium">Finance</td>
-            <td class="text-center">
-              <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">
-                <i class="fas fa-circle me-1" style="font-size:0.5rem;"></i>Active
-              </span>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                <i class="fas fa-pen"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" title="Delete">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td class="ps-4 text-muted">3</td>
-            <td class="fw-medium">Engineering</td>
-            <td class="text-center">
-              <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3">
-                <i class="fas fa-circle me-1" style="font-size:0.5rem;"></i>Inactive
-              </span>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                <i class="fas fa-pen"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" title="Delete">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td class="ps-4 text-muted">4</td>
-            <td class="fw-medium">Marketing</td>
-            <td class="text-center">
-              <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">
-                <i class="fas fa-circle me-1" style="font-size:0.5rem;"></i>Active
-              </span>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                <i class="fas fa-pen"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" title="Delete">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
+          }
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
