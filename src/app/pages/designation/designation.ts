@@ -1,9 +1,93 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { DesignationModel } from "../../models/Designation.models";
+import { Master } from "../../services/master";
 
 @Component({
-  selector: 'app-designation',
-  imports: [],
-  templateUrl: './designation.html',
-  styleUrl: './designation.css',
+  selector: "app-designation",
+  imports: [CommonModule],
+  templateUrl: "./designation.html",
+  styleUrl: "./designation.css",
 })
-export class Designation {}
+export class Designation {
+  newDesignationObj: DesignationModel;
+  designationList: DesignationModel[] = [];
+  departmentList: any[] = [];
+  loading: boolean = false;
+
+  constructor(private master: Master) {
+    this.newDesignationObj = this.getEmptyDesignation();
+    this.loadDesignations();
+    this.loadDepartments();
+  }
+
+  getEmptyDesignation(): DesignationModel {
+    return {
+      designationId: 0,
+      departmentId: 0,
+      designationName: "",
+    };
+  }
+
+  loadDesignations() {
+    this.loading = true;
+    this.master.getAllDesignations().subscribe({
+      next: (res: any) => {
+        this.designationList = res;
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      },
+    });
+  }
+
+  loadDepartments() {
+    this.master.getAllDept().subscribe({
+      next: (res: any) => {
+        this.departmentList = res;
+      },
+      error: () => {
+        this.departmentList = [];
+      },
+    });
+  }
+
+  onSaveDesignation() {
+    if (!this.newDesignationObj.designationName || !this.newDesignationObj.departmentId) return;
+    this.master.saveDesignation(this.newDesignationObj).subscribe({
+      next: () => {
+        this.loadDesignations();
+        this.onReset();
+      },
+    });
+  }
+
+  onUpdateDesignation() {
+    if (!this.newDesignationObj.designationId) return;
+    this.master.updateDesignation(this.newDesignationObj).subscribe({
+      next: () => {
+        this.loadDesignations();
+        this.onReset();
+      },
+    });
+  }
+
+  onEdit(item: DesignationModel) {
+    this.newDesignationObj = { ...item };
+  }
+
+  onDelete(id: number) {
+    if (!confirm("Are you sure you want to delete this designation?")) return;
+    this.master.deleteDesignationById(id).subscribe({
+      next: () => {
+        this.loadDesignations();
+        this.onReset();
+      },
+    });
+  }
+
+  onReset() {
+    this.newDesignationObj = this.getEmptyDesignation();
+  }
+}

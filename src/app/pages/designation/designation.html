@@ -1,1 +1,97 @@
-<p>designation works!</p>
+<!-- Page Header -->
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h4 class="mb-0 fw-semibold"><i class="fas fa-user-tie me-2 text-primary"></i>Designations</h4>
+        <small class="text-muted">Manage your organization designations</small>
+    </div>
+</div>
+
+<!-- Form Card -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3">
+        <h6 class="mb-0 fw-semibold text-secondary">
+            <i class="fas fa-plus-circle me-2"></i>Add / Edit Designation
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="row align-items-center g-3">
+
+			<div class="col-3">
+				<label class="form-label fw-medium">Designation Name</label>
+				<input type="text" class="form-control" placeholder="Enter designation name"
+					(click)="newDesignationObj.designationName" maxlength="50" required />
+			</div>
+
+			<div class="col-3">
+				<label class="form-label fw-medium">Department</label>
+				<select class="form-select" (click)="newDesignationObj.departmentId" required>
+					<option value="" disabled selected>Select department</option>
+					<option *ngFor="let dept of departmentList" [value]="dept.departmentId">
+						{{dept.departmentName}}
+					</option>
+				</select>
+			</div>
+
+            <div class="col-auto">
+                <label class="form-label d-block invisible">Actions</label>
+                <!-- Show Save if new, Update if editing -->
+                @if(newDesignationObj.designationId == 0){
+                <button class="btn btn-primary me-2" (click)="onSaveDesignation()">
+                    <i class="fas fa-save me-1"></i> Save
+                </button>
+                } @else {
+                <button class="btn btn-primary me-2" (click)="onUpdateDesignation()">
+                    <i class="fas fa-save me-1"></i> Update
+                </button>
+                }
+
+                <button class="btn btn-outline-secondary" (click)="onReset()">
+                    <i class="fas fa-undo me-1"></i> Reset
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Table Card -->
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
+        <h6 class="mb-0 fw-semibold text-secondary">
+            <i class="fas fa-list me-2"></i>Designation List
+        </h6>
+        <span class="badge bg-primary rounded-pill">{{designationList.length || 0}} Records</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4" style="width: 60px;">#</th>
+                        <th>Designation Name</th>
+                        <th>Department ID</th>
+                        <th class="text-center" style="width: 140px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of designationList; track $index){
+                    <tr>
+                        <td class="ps-4 text-muted">{{$index + 1}}</td>
+                        <td class="fw-medium">{{item.designationName}}</td>
+                        <td>{{item.departmentId}}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary me-1" title="Edit" (click)="onEdit(item)">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" title="Delete"
+                                (click)="onDelete(item.designationId)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
