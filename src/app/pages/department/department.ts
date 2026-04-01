@@ -56,6 +56,23 @@ export class Department implements OnInit {
     this.newDeptObj = new DepartmentModal();
   }
 
+  onDelete(id: number) {
+    debugger;
+    const isDelete = confirm("Are you sure you want to delete?");
+    if (isDelete) {
+      this.masterService.deleteDeptbyId(id).subscribe({
+        next: (result: any) => {
+          debugger;
+          alert("Department Delete Successfully");
+          this.getAllDepartments();
+        },
+        error: (error) => {
+          alert(error.error);
+        },
+      });
+    }
+  }
+
   getAllDepartments() {
     this.masterService.getAllDept().subscribe({
       next: (result: any) => {
