@@ -1,22 +1,26 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { DesignationModel } from "../../models/Designation.models";
+import { FormsModule } from "@angular/forms";
+import { DesignationListModel, DesignationModel } from "../../models/Designation.models";
 import { Master } from "../../services/master";
 
 @Component({
   selector: "app-designation",
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: "./designation.html",
   styleUrl: "./designation.css",
 })
-export class Designation {
+export class Designation implements OnInit {
   newDesignationObj: DesignationModel;
-  designationList: DesignationModel[] = [];
+  designationList: DesignationListModel[] = [];
   departmentList: any[] = [];
   loading: boolean = false;
 
   constructor(private master: Master) {
     this.newDesignationObj = this.getEmptyDesignation();
+  }
+
+  ngOnInit(): void {
     this.loadDesignations();
     this.loadDepartments();
   }
@@ -54,22 +58,33 @@ export class Designation {
   }
 
   onSaveDesignation() {
-    if (!this.newDesignationObj.designationName || !this.newDesignationObj.departmentId) return;
+    if (!this.newDesignationObj.designationName || !this.newDesignationObj.departmentId) {
+      alert("Please fill all required fields");
+      return;
+    }
     this.master.saveDesignation(this.newDesignationObj).subscribe({
-      next: () => {
+      next: (res: any) => {
+        alert("Designation Created Successfully");
         this.loadDesignations();
         this.onReset();
       },
+      error: (error) => {
+        alert(error.error || "An error occurred while creating");
+      }
     });
   }
 
   onUpdateDesignation() {
     if (!this.newDesignationObj.designationId) return;
     this.master.updateDesignation(this.newDesignationObj).subscribe({
-      next: () => {
+      next: (res: any) => {
+        alert("Designation Updated Successfully");
         this.loadDesignations();
         this.onReset();
       },
+      error: (error) => {
+        alert(error.error || "An error occurred while updating");
+      }
     });
   }
 
@@ -80,10 +95,14 @@ export class Designation {
   onDelete(id: number) {
     if (!confirm("Are you sure you want to delete this designation?")) return;
     this.master.deleteDesignationById(id).subscribe({
-      next: () => {
+      next: (res: any) => {
+        alert("Designation Deleted Successfully");
         this.loadDesignations();
         this.onReset();
       },
+      error: (error) => {
+        alert(error.error || "An error occurred while deleting");
+      }
     });
   }
 

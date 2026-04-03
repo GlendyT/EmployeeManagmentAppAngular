@@ -3,7 +3,6 @@ import { inject, Injectable } from "@angular/core";
 import { DepartmentModal } from "../models/Department.models";
 import { DesignationModel } from "../models/Designation.models";
 
-
 @Injectable({
   providedIn: "root",
 })
@@ -35,23 +34,26 @@ export class Master {
 
   // Designation methods
   getAllDesignations() {
-    return this.http.get(this.apiUrl + "DesignationMaster/GetAllDesignations");
+    return this.http.get(this.apiUrl + "DesignationMaster");
   }
 
   saveDesignation(obj: DesignationModel) {
-    return this.http.post(this.apiUrl + "DesignationMaster/AddDesignation", obj);
+    return this.http.post(
+      this.apiUrl + "DesignationMaster",
+      obj
+    );
   }
 
   updateDesignation(obj: DesignationModel) {
     return this.http.put(
-      this.apiUrl + "DesignationMaster/UpdateDesignation",
+      this.apiUrl + "DesignationMaster",
       obj
     );
   }
 
   deleteDesignationById(id: number) {
     return this.http.delete(
-      this.apiUrl + "DesignationMaster/DeleteDesignation/" + id
+      this.apiUrl + "DesignationMaster/" + id
     );
   }
 }
