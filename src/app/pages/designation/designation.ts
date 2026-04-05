@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { DesignationListModel, DesignationModel } from "../../models/Designation.models";
@@ -15,6 +15,7 @@ export class Designation implements OnInit {
   designationList: DesignationListModel[] = [];
   departmentList: any[] = [];
   loading: boolean = false;
+  isLoading = signal(false)
 
   constructor(private master: Master) {
     this.newDesignationObj = this.getEmptyDesignation();
@@ -62,11 +63,13 @@ export class Designation implements OnInit {
       alert("Please fill all required fields");
       return;
     }
+    this.isLoading.set(true)
     this.master.saveDesignation(this.newDesignationObj).subscribe({
       next: (res: any) => {
         alert("Designation Created Successfully");
         this.loadDesignations();
         this.onReset();
+        this.isLoading.set(false)
       },
       error: (error) => {
         alert(error.error || "An error occurred while creating");
@@ -76,11 +79,13 @@ export class Designation implements OnInit {
 
   onUpdateDesignation() {
     if (!this.newDesignationObj.designationId) return;
+    this.isLoading.set(true)
     this.master.updateDesignation(this.newDesignationObj).subscribe({
       next: (res: any) => {
         alert("Designation Updated Successfully");
         this.loadDesignations();
         this.onReset();
+        this.isLoading.set(false)
       },
       error: (error) => {
         alert(error.error || "An error occurred while updating");
@@ -94,11 +99,13 @@ export class Designation implements OnInit {
 
   onDelete(id: number) {
     if (!confirm("Are you sure you want to delete this designation?")) return;
+    this.isLoading.set(true)
     this.master.deleteDesignationById(id).subscribe({
       next: (res: any) => {
         alert("Designation Deleted Successfully");
         this.loadDesignations();
         this.onReset();
+        this.isLoading.set(false)
       },
       error: (error) => {
         alert(error.error || "An error occurred while deleting");
