@@ -15,18 +15,18 @@ export class EmployeeModel {
 
   constructor() {
     this.employeeId = 0;
-    this.name = '';
-    this.contactNo = '';
-    this.email = '';
-    this.city = '';
-    this.state = '';
-    this.pincode = '';
-    this.altContactNo = '';
-    this.address = '';
+    this.name = "";
+    this.contactNo = "";
+    this.email = "";
+    this.city = "";
+    this.state = "";
+    this.pincode = "";
+    this.altContactNo = "";
+    this.address = "";
     this.designationId = 0;
     this.createdDate = new Date();
     this.modifiedDate = new Date();
-    this.role = '';
+    this.role = "";
   }
 }
 
@@ -35,7 +35,25 @@ export class LoginDto {
   contactNo: string;
 
   constructor() {
-    this.email = '';
-    this.contactNo = '';
+    this.email = "";
+    this.contactNo = "";
   }
+}
+
+export interface IEmployeeListModel {
+  employeeId: number;
+  name: string;
+  contactNo: string;
+  email: string;
+  city: string;
+  state: string;
+  pincode: string;
+  address: string;
+  designationId: number;
+  role: string;
+  createdDate: string | Date; // Depending on how you parse the JSON response
+  modifiedDate: string | Date; // Depending on how you parse the JSON response
+  designationName: string;
+  departmentId: number;
+  departmentName: string;
 }

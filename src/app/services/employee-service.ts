@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { EmployeeModel } from "../models/Employee.Model";
+import { EmployeeModel, IEmployeeListModel } from "../models/Employee.Model";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -11,5 +12,9 @@ export class EmployeeService {
 
   saveEmployee(obj: EmployeeModel) {
     return this.http.post(this.apiUrl + "EmployeeMaster", obj);
+  }
+
+  getAllEmployee(): Observable<IEmployeeListModel[]> {
+    return this.http.get<IEmployeeListModel[]>(this.apiUrl + "EmployeeMaster");
   }
 }
