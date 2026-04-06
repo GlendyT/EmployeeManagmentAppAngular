@@ -10,15 +10,10 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.name" id="name" placeholder="Enter full name">
+                    <input type="text" [disabled]="loggedEmpData.role !== 'HR' " class="form-control"
+                        [(ngModel)]="newEmployeeObj.name" id="name" placeholder="Enter full name">
                 </div>
-                <div class="col-md-6">
-                    <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" [(ngModel)]="newEmployeeObj.role">
-                        <option selected disabled>Select a role...</option>
-                        <option value="HR">HR</option>
-                    </select>
-                </div>
+
             </div>
 
             <!-- Section: Contact Details -->
@@ -26,15 +21,18 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" [(ngModel)]="newEmployeeObj.email" id="email" placeholder="name@example.com">
+                    <input type="email" class="form-control" [(ngModel)]="newEmployeeObj.email" id="email"
+                        placeholder="name@example.com">
                 </div>
                 <div class="col-md-4">
                     <label for="contactNo" class="form-label">Contact Number</label>
-                    <input type="tel" class="form-control" [(ngModel)]="newEmployeeObj.contactNo" id="contactNo" minlength="10" placeholder="Enter contact number">
+                    <input type="tel" class="form-control" [(ngModel)]="newEmployeeObj.contactNo" id="contactNo"
+                        minlength="10" placeholder="Enter contact number">
                 </div>
                 <div class="col-md-4">
                     <label for="altContactNo" class="form-label">Alternate Contact No.</label>
-                    <input type="tel" class="form-control" [(ngModel)]="newEmployeeObj.altContactNo" id="altContactNo" placeholder="Optional">
+                    <input type="tel" class="form-control" [(ngModel)]="newEmployeeObj.altContactNo" id="altContactNo"
+                        placeholder="Optional">
                 </div>
             </div>
 
@@ -44,19 +42,22 @@
                 <div class="col-12 mb-3">
                     <label for="address" class="form-label">Address</label>
                     <textarea class="form-control" [(ngModel)]="newEmployeeObj.address" id="address" rows="2"
-                        placeholder="1234 Main St"></textarea>
+                        placeholder="1234 Main St" [disabled]="loggedEmpData.role !== 'HR' "></textarea>
                 </div>
                 <div class="col-md-4">
                     <label for="city" class="form-label">City</label>
-                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.city" id="city" placeholder="City">
+                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.city" id="city"
+                        placeholder="City" [disabled]="loggedEmpData.role !== 'HR' ">
                 </div>
                 <div class="col-md-4">
                     <label for="state" class="form-label">State</label>
-                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.state" id="state" placeholder="State">
+                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.state" id="state"
+                        placeholder="State" [disabled]="loggedEmpData.role !== 'HR' ">
                 </div>
                 <div class="col-md-4">
                     <label for="pincode" class="form-label">Pincode</label>
-                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.pincode" id="pincode" placeholder="Zip / Pincode">
+                    <input type="text" class="form-control" [(ngModel)]="newEmployeeObj.pincode" id="pincode"
+                        placeholder="Zip / Pincode" [disabled]="loggedEmpData.role !== 'HR' ">
                 </div>
             </div>
 
@@ -65,19 +66,40 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="designationId" class="form-label">Designation</label>
-                    <select class="form-select" id="designationId" [(ngModel)]="newEmployeeObj.designationId">
+                    <select class="form-select" id="designationId" [(ngModel)]="newEmployeeObj.designationId"
+                        [disabled]="loggedEmpData.role !== 'HR' ">
                         <option selected disabled>Select Designation...</option>
                         @for (item of $designationList | async; track $index){
-                            <option [value]="item.designationId">{{item.designationName}} - {{item.departmentName}} </option>
+                        <option [value]="item.designationId">{{item.designationName}} - {{item.departmentName}}
+                        </option>
                         }
                     </select>
                 </div>
             </div>
 
+            <div class="col-md-6">
+                <label for="role" class="form-label">Role</label>
+                <select class="form-select" id="role" [(ngModel)]="newEmployeeObj.role"
+                    [disabled]="loggedEmpData.role !== 'HR' ">
+                    <option selected disabled>Select a role...</option>
+                    @for (item of $designationList | async ; track $index) {
+                    <option [value]="item.departmentName">{{item.departmentName}} </option>
+                    }
+
+
+                </select>
+            </div>
+
             <!-- Action Buttons -->
             <div class="d-flex justify-content-end mt-4">
-                <button type="button" class="btn btn-secondary me-2">Cancel</button>
+                <button type="button" class="btn btn-secondary me-2">Reset</button>
+                @if (newEmployeeObj.employeeId == 0) {
                 <button type="button" class="btn btn-primary" (click)="onSaveEmp()">Save Employee</button>
+                } @else {
+                <button type="button" class="btn btn-primary" (click)="onSaveEmp()">Update Employee</button>
+                }
+
+
             </div>
 
         </div>
