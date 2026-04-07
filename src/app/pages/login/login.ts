@@ -26,7 +26,11 @@ export class Login {
         next: (result: any) => {
           debugger;
           localStorage.setItem("empLoginUser", JSON.stringify(result.data));
-          this.router.navigateByUrl("dashboard");
+          if (result.data.role == "Employee") {
+            this.router.navigateByUrl("new-employee/" + result.data.employeeId);
+          } else {
+            this.router.navigateByUrl("dashboard");
+          }
         },
         error: (error: any) => {
           debugger;

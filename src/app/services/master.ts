@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { DepartmentModal } from "../models/Department.models";
-import { DesignationModel } from "../models/Designation.models";
+import { DesignationModel, DesignationListModel } from "../models/Designation.models";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -33,8 +34,8 @@ export class Master {
   }
 
   // Designation methods
-  getAllDesignations() {
-    return this.http.get(this.apiUrl + "DesignationMaster");
+  getAllDesignations(): Observable<DesignationListModel[]> {
+    return this.http.get<DesignationListModel[]>(this.apiUrl + "DesignationMaster");
   }
 
   saveDesignation(obj: DesignationModel) {
